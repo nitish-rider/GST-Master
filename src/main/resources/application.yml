@@ -1,3 +1,7 @@
 micronaut:
   application:
     name: APIMacro
+  server:
+    port: 80
+
+

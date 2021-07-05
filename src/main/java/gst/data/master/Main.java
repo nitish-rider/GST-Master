@@ -6,10 +6,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Iterator;
 
 public class Main {
@@ -23,10 +20,10 @@ public class Main {
     int billAmt;
 
     public static void main(String[] args)  throws IOException  {
-        Main obj = new Main();
-        obj.assignCellNum();
-        File file = new File("TEXT1.xlsx");   //creating a new file instance
-        obj.calculateFile(file);
+//        Main obj = new Main();
+//        obj.assignCellNum();
+//        File file = new File("TEXT1.xlsx");   //creating a new file instance
+//        obj.calculateFile(file);
 
     }
 
@@ -41,7 +38,10 @@ public class Main {
         billAmt = 11;
     }
 
-    private void calculateFile(File file) throws IOException {
+
+
+    File calculateFile(File file) throws IOException {
+        String filename = "Final.xls";
         int i = 0;
         short rowSr = 0;
         XSSFWorkbook workbook = new XSSFWorkbook();
@@ -67,7 +67,7 @@ public class Main {
                 currIgst = Double.parseDouble(row.getCell(igst).toString());
                 currTotalAmt = Double.parseDouble(row.getCell(totalAmt).toString());
                 currBillAmt = Double.parseDouble(row.getCell(billAmt).toString());
-            } else if (currGstNum == row.getCell(gstnum).toString()) {
+            } else if (currGstNum.equals(row.getCell(gstnum).toString())) {
                 currCompanyName = row.getCell(cName).toString();
                 currTaxableAmt += Double.parseDouble(row.getCell(taxableAmt).toString());
                 currSgst += Double.parseDouble(row.getCell(sgst).toString());
@@ -85,21 +85,15 @@ public class Main {
                     Cell cell = rowhead.createCell(cellid++);
                     cell.setCellValue((String) obj);
                 }
-                String filename = "Final.xlsx";
-                FileOutputStream fileOut = new FileOutputStream(new File("Final.xlsx"));
+                FileOutputStream fileOut = new FileOutputStream(new File(filename));
                 workbook.write(fileOut);
                 fileOut.close();
-                currGstNum = row.getCell(gstnum).toString();
-                currCompanyName = row.getCell(cName).toString();
-                currTaxableAmt = Double.parseDouble(row.getCell(taxableAmt).toString());
-                currSgst = Double.parseDouble(row.getCell(sgst).toString());
-                currCgst = Double.parseDouble(row.getCell(cgst).toString());
-                currIgst = Double.parseDouble(row.getCell(igst).toString());
-                currTotalAmt = Double.parseDouble(row.getCell(totalAmt).toString());
-                currBillAmt = Double.parseDouble(row.getCell(billAmt).toString());
+
             }
         }
+        return new File(filename);
     }
 }
+
 
 
